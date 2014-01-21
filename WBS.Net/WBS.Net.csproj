@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Measure.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserSecrets.cs" />
     <Compile Include="WBS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -13,6 +13,7 @@ using DevDefined.OAuth.Consumer;
 using DevDefined.OAuth.Framework;
 using DevDefined.OAuth.Storage.Basic;
 using DevDefined.OAuth.Tests;
+using System.Xml.Serialization;
 
 namespace WBS.Net
 {
@@ -22,7 +23,8 @@ namespace WBS.Net
         private readonly string consumerSecret;
         private string token;
         private string tokenSecret;
-        private int userId;
+        private int userId = -1;
+        private string userSecretsPath;
 
         private const string requestUrl = "http://oauth.withings.com/account/request_token";
         private const string userAuthorizeUrl = "http://oauth.withings.com/account/authorize";
@@ -31,20 +33,40 @@ namespace WBS.Net
         private IToken requestToken;
         private OAuthConsumerContext context;
 
-        public User User { get; private set; }
-
-        public WBS(string consumerKey, string consumerSecret, string token = "", string tokenSecret = "", int userId = -1)
+        public User User 
         {
+            get; 
+            private set; 
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(this.token) && !string.IsNullOrEmpty(this.tokenSecret) && userId != -1);
+            }
+        }
+
+        public WBS(string consumerKey, string consumerSecret)
+        {
+            this.userSecretsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UserSecrets.xml");
             this.consumerKey = consumerKey;
             this.consumerSecret = consumerSecret;
+            this.CreateSession();
+            this.LoadSecrets(this.userSecretsPath);
+        }
+
+        public WBS(string consumerKey, string consumerSecret, string token, string tokenSecret, int userId)
+            : this(consumerKey, consumerSecret)
+        {
             this.tokenSecret = tokenSecret;
             this.token = token;
             this.userId = userId;
 
-            this.CreateSession();
-
-            if (!string.IsNullOrWhiteSpace(this.token) && !string.IsNullOrWhiteSpace(this.tokenSecret) && userId != -1)
+            if (this.IsValid)
+            {
                 this.UpdateProfil();
+            }
         }
 
         public async Task<string> Connect()
@@ -81,6 +103,7 @@ namespace WBS.Net
                     this.userId = userId;
 
                     this.UpdateProfil();
+                    this.SaveSecrets(this.userSecretsPath);
                 });
         }
 
@@ -127,7 +150,7 @@ namespace WBS.Net
                     string responseText = session.Request(accessToken).Get().ForUrl(request).ToString();
                     return TransformMeasures(responseText);
                 }
-                catch (WebException ex)
+                catch (WebException)
                 {
                     throw;
                 }
@@ -213,17 +236,55 @@ namespace WBS.Net
             });
         }
 
-        public static DateTime FromUnixTime(long unixTime)
+        private static DateTime FromUnixTime(long unixTime)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return epoch.AddSeconds(unixTime);
         }
 
-        public static long ToUnixTime(DateTime date)
+        private static long ToUnixTime(DateTime date)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return Convert.ToInt64((date - epoch).TotalSeconds);
         }
 
+        private void SaveSecrets(string userSecretsPath)
+        {
+            try
+            {
+                UserSecrets secrets = new UserSecrets
+                {
+                    Token = this.token,
+                    TokenSecret = this.tokenSecret,
+                    UserId = this.userId
+                };
+
+                var serializer = new XmlSerializer(typeof(UserSecrets));
+                TextWriter writer = new StreamWriter(userSecretsPath);
+                serializer.Serialize(writer, secrets);
+                writer.Close();
+            }
+            catch(Exception)
+            { }
+        }
+
+        private void LoadSecrets(string userSecretsPath)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(UserSecrets));
+                FileStream fs = new FileStream(userSecretsPath, FileMode.Open);
+
+                var secrets = serializer.Deserialize(fs) as UserSecrets;
+                fs.Close();
+
+                this.token = secrets.Token;
+                this.tokenSecret = secrets.TokenSecret;
+                this.userId = secrets.UserId;
+            }
+            catch(Exception)
+            { }
+        }
+       
     }
 }
