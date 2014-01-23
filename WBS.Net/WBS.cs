@@ -14,6 +14,7 @@ using DevDefined.OAuth.Framework;
 using DevDefined.OAuth.Storage.Basic;
 using DevDefined.OAuth.Tests;
 using System.Xml.Serialization;
+using System.Diagnostics;
 
 namespace WBS.Net
 {
@@ -49,7 +50,7 @@ namespace WBS.Net
 
         public WBS(string consumerKey, string consumerSecret)
         {
-            this.userSecretsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "UserSecrets.xml");
+            this.InitializeSecretsPath();
             this.consumerKey = consumerKey;
             this.consumerSecret = consumerSecret;
             this.CreateSession();
@@ -105,6 +106,18 @@ namespace WBS.Net
                     this.UpdateProfil();
                     this.SaveSecrets(this.userSecretsPath);
                 });
+        }
+
+        public void Valididate(string verifier, int userId)
+        {
+            IToken accessToken = session.ExchangeRequestTokenForAccessToken(requestToken, "GET", verifier);
+
+            this.token = accessToken.Token;
+            this.tokenSecret = accessToken.TokenSecret;
+            this.userId = userId;
+
+            this.UpdateProfil();
+            this.SaveSecrets(this.userSecretsPath);
         }
 
         public async Task<List<MeasureGroup>> GetMeasures(DateTime startDate, DateTime endDate)
@@ -264,8 +277,10 @@ namespace WBS.Net
                 serializer.Serialize(writer, secrets);
                 writer.Close();
             }
-            catch(Exception)
-            { }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private void LoadSecrets(string userSecretsPath)
@@ -282,8 +297,22 @@ namespace WBS.Net
                 this.tokenSecret = secrets.TokenSecret;
                 this.userId = secrets.UserId;
             }
-            catch(Exception)
-            { }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void InitializeSecretsPath()
+        {
+            var wbsAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "WBS");
+
+            if (!Directory.Exists(wbsAppDataPath))
+            {
+                Directory.CreateDirectory(wbsAppDataPath);
+            }
+
+            this.userSecretsPath = Path.Combine(wbsAppDataPath, @"UserSecrets.xml");
         }
        
     }

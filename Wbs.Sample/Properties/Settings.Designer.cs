@@ -25,7 +25,7 @@ namespace Wbs.Sample.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Your API Key")]
+        [global::System.Configuration.DefaultSettingValueAttribute("475403f78bd8d62d302f869ff17de762005c85e73133cfb0d6f16ec98")]
         public string ApiKey {
             get {
                 return ((string)(this["ApiKey"]));
@@ -34,7 +34,7 @@ namespace Wbs.Sample.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Your API Scret")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1ee180e23bb9324f21ef8dbf9d710b7d0b59b5845fe96e092ec2e10e4d49")]
         public string ApiSecret {
             get {
                 return ((string)(this["ApiSecret"]));

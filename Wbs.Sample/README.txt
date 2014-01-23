@@ -1,0 +1,2 @@
+Sample app showing how to create an authenticated session authorize access to heart rate data and display it. 
+You will need to edit app.config (or use the settings editor) to add your developer Api key and secret 

@@ -3,10 +3,10 @@
   <Profiles />
   <Settings>
     <Setting Name="ApiKey" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Your API Key</Value>
+      <Value Profile="(Default)">475403f78bd8d62d302f869ff17de762005c85e73133cfb0d6f16ec98</Value>
     </Setting>
     <Setting Name="ApiSecret" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Your API Scret</Value>
+      <Value Profile="(Default)">1ee180e23bb9324f21ef8dbf9d710b7d0b59b5845fe96e092ec2e10e4d49</Value>
     </Setting>
   </Settings>
 </SettingsFile>

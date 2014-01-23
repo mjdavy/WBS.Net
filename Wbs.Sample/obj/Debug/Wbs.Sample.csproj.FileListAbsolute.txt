@@ -30,3 +30,17 @@ C:\RND\WBS.Net\Wbs.Sample\obj\Debug\Wbs.Sample.Properties.Resources.resources
 C:\RND\WBS.Net\Wbs.Sample\obj\Debug\Wbs.Sample.csproj.GenerateResource.Cache
 C:\RND\WBS.Net\Wbs.Sample\obj\Debug\Wbs.Sample.exe
 C:\RND\WBS.Net\Wbs.Sample\obj\Debug\Wbs.Sample.pdb
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.dll
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.WPF45.dll
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\System.Windows.Interactivity.dll
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.pdb
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.Extras.WPF45.xml
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.WPF45.pdb
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\GalaSoft.MvvmLight.WPF45.xml
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+C:\RND\WBS.Net\Wbs.Sample\bin\Debug\System.Windows.Interactivity.xml
+C:\RND\WBS.Net\Wbs.Sample\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\RND\WBS.Net\Wbs.Sample\obj\Debug\Wbs.Sample_MarkupCompile.lref
+C:\RND\WBS.Net\Wbs.Sample\obj\Debug\App.baml
